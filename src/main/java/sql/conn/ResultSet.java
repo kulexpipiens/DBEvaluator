@@ -13,6 +13,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.view.ViewScoped;
 
+import com.mysql.jdbc.StringUtils;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 
 @ManagedBean
@@ -27,7 +28,7 @@ public class ResultSet implements Serializable {
 	private List<Object> resultList = new ArrayList<>();
 	private Integer resultCount;
 	private String select;
-	private String message= "nic";
+	private String message;
 	
 	@ManagedProperty(value = "#{connector}")
 	Connector connector;
@@ -73,7 +74,7 @@ public class ResultSet implements Serializable {
 					resultList.add(resultSet.getObject(i));
 				}
 			}
-			
+			message = "";
 		} catch (MySQLSyntaxErrorException e) {
 			message = e.getMessage();
 		} catch (SQLException e) {

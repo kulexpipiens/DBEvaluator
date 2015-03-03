@@ -8,12 +8,12 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="template/ui.xhtml">
 	<ui:define name="body">
-		<h3>Welcome to JSF Lab</h3>
-		<h4>Pure JSF</h4>
+		<h3>Welcome to DBEvaluator</h3>
+		<h4>Pure JAVA  </h4>
 		<h:form id="jsfForm">
-			<h:inputText id="name" value="#{resultSet.select}" />
+			<h:inputText size="100" id="name" value="#{resultSet.select}" />
 			<h:commandButton value="Execute query">
-				<f:ajax execute="name" render=":jsfForm:nameGroup, :jsfForm:message" rerender="message" />
+				<f:ajax execute="name" render=":jsfForm:nameGroup :jsfForm:message" />
 			</h:commandButton>
 			<br />
 			<!-- 			<h:panelGroup id="nameGroup">
@@ -27,7 +27,7 @@
 				</p:column>
 			</p:dataGrid>
 			<h:panelGroup id="message">
-				<h:outputText value="#{resultSet.message}" rendered="#{not empty resultSet.message}" />
+				<h:outputText value="#{resultSet.message}" />
 			</h:panelGroup>
 		</h:form>
 		<!--
