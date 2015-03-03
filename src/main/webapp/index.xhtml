@@ -11,16 +11,26 @@
 		<h3>Welcome to JSF Lab</h3>
 		<h4>Pure JSF</h4>
 		<h:form id="jsfForm">
-			<h:inputText id="name" value="#{mainController.name}" />
-			<h:commandButton value="Say Hi">
-				<f:ajax execute="name" render=":jsfForm:nameGroup" />
+			<h:inputText id="name" value="#{resultSet.select}" />
+			<h:commandButton value="Execute query">
+				<f:ajax execute="name" render=":jsfForm:nameGroup, :jsfForm:message" rerender="message" />
 			</h:commandButton>
 			<br />
-			<h:panelGroup id="nameGroup">
+			<!-- 			<h:panelGroup id="nameGroup">
 				<h:outputText value="Hi #{mainController.name}!!"
 					rendered="#{not empty mainController.name}" />
+			</h:panelGroup> -->
+			
+			<p:dataGrid id="nameGroup" columns="#{resultSet.resultCount}" value="#{resultSet.resultList}" var="item">
+				<p:column>
+					<h:outputText value="#{item}" />
+				</p:column>
+			</p:dataGrid>
+			<h:panelGroup id="message">
+				<h:outputText value="#{resultSet.message}" rendered="#{not empty resultSet.message}" />
 			</h:panelGroup>
 		</h:form>
+		<!--
 		<hr />
 		#{connector.connection}
 		<h4>PrimeFaces</h4>
@@ -34,12 +44,8 @@
 					rendered="#{not empty mainController.primeName}" />
 			</h:panelGroup>
 		</h:form>
+ -->
 
 
-		<p:dataGrid columns="#{connector.result.resultCount}" value="#{connector.result.resultList}" var="item">
-			<p:column>
-				<h:outputText value="#{item}" />
-			</p:column>
-		</p:dataGrid>
 	</ui:define>
 </ui:composition>
