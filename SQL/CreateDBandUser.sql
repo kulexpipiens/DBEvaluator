@@ -20,3 +20,11 @@ INSERT INTO KATEGORIE VALUES
 (4, 'fsd', 'red', 'fas', 'ttt');
 
 SELECT * FROM Kategorie
+
+CREATE TABLE User (
+mail VARCHAR(50) primary key,
+pass  VARCHAR(100)
+)
+
+INSERT INTO User VALUES 
+('maros@gmail.com', 'pass');
