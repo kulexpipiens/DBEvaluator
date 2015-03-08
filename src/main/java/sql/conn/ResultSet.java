@@ -8,12 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.view.ViewScoped;
 
-import com.mysql.jdbc.StringUtils;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 
 @ManagedBean
@@ -33,9 +31,30 @@ public class ResultSet implements Serializable {
 	@ManagedProperty(value = "#{connector}")
 	Connector connector;
 	
-	public ResultSet(){
-		int i= 0;
-		i++;
+	public void evaluate(){
+		Connection connection = null;
+		try {
+			connection = connector.getConnection();
+			PreparedStatement prepareStatement = connection
+					.prepareStatement(select);
+			this.resultSet = prepareStatement.executeQuery();
+			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+			resultCount = resultSetMetaData.getColumnCount();
+			for (int i = 1; i < resultCount + 1; i++) {
+				resultList.add(resultSetMetaData.getColumnName(i));
+			}
+			while (resultSet.next()) {
+				for (int i = 1; i < resultCount + 1; i++) {
+					resultList.add(resultSet.getObject(i));
+				}
+			}
+			message = "";
+		} catch (MySQLSyntaxErrorException e) {
+			message = e.getMessage();
+		} catch (SQLException e) {
+			message = e.getMessage();
+			e.printStackTrace();
+		} 
 	}
 
 	public java.sql.ResultSet getResultSet() {
@@ -63,29 +82,7 @@ public class ResultSet implements Serializable {
 	}
 
 	public void setSelect(String select) {
-		Connection connection = null;
-		try {
-			connection = connector.getConnection();
-			PreparedStatement prepareStatement = connection
-					.prepareStatement(select);
-			this.resultSet = prepareStatement.executeQuery();
-			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-			resultCount = resultSetMetaData.getColumnCount();
-			for (int i = 1; i < resultCount + 1; i++) {
-				resultList.add(resultSetMetaData.getColumnName(i));
-			}
-			while (resultSet.next()) {
-				for (int i = 1; i < resultCount + 1; i++) {
-					resultList.add(resultSet.getObject(i));
-				}
-			}
-			message = "";
-		} catch (MySQLSyntaxErrorException e) {
-			message = e.getMessage();
-		} catch (SQLException e) {
-			message = e.getMessage();
-			e.printStackTrace();
-		} 
+		this.select=select;
 	}
 
 	public String getMessage() {

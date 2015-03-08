@@ -10,7 +10,7 @@
 	<ui:define name="body">
 		<h:form id="jsfForm">
 			<h:inputText size="100" id="name" value="#{resultSet.select}" />
-			<h:commandButton value="Execute query">
+			<h:commandButton action="#{resultSet.evaluate}" value="Execute query">
 				<f:ajax execute="name" render=":jsfForm:nameGroup :jsfForm:message" />
 			</h:commandButton>
 			<br />
