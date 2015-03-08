@@ -32,6 +32,11 @@ public class ResultSet implements Serializable {
 	
 	@ManagedProperty(value = "#{connector}")
 	Connector connector;
+	
+	public ResultSet(){
+		int i= 0;
+		i++;
+	}
 
 	public java.sql.ResultSet getResultSet() {
 		return resultSet;
