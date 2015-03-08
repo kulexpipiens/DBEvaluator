@@ -16,11 +16,6 @@
 				<f:ajax execute="name" render=":jsfForm:nameGroup :jsfForm:message" />
 			</h:commandButton>
 			<br />
-			<!-- 			<h:panelGroup id="nameGroup">
-				<h:outputText value="Hi #{mainController.name}!!"
-					rendered="#{not empty mainController.name}" />
-			</h:panelGroup> -->
-			
 			<p:dataGrid id="nameGroup" columns="#{resultSet.resultCount}" value="#{resultSet.resultList}" var="item">
 				<p:column>
 					<h:outputText value="#{item}" />
@@ -30,22 +25,5 @@
 				<h:outputText value="#{resultSet.message}" />
 			</h:panelGroup>
 		</h:form>
-		<!--
-		<hr />
-		#{connector.connection}
-		<h4>PrimeFaces</h4>
-		<h:form id="primeForm">
-			<p:inputText id="name" value="#{mainController.primeName}">
-				<p:ajax event="keyup" process="@this" update=":primeForm:nameGroup" />
-			</p:inputText>
-			<h:button value="buton" />
-			<h:panelGroup id="nameGroup">
-				<h:outputText value="Hi #{mainController.primeName}!!"
-					rendered="#{not empty mainController.primeName}" />
-			</h:panelGroup>
-		</h:form>
- -->
-
-
 	</ui:define>
 </ui:composition>
