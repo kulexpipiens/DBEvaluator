@@ -23,30 +23,36 @@ public class ResultSet implements Serializable {
 	private static final long serialVersionUID = -6481731338017890578L;
 
 	private java.sql.ResultSet resultSet;
-	private List<Object> resultList = new ArrayList<>();
+	private List<Object[]> resultList = new ArrayList<>();
 	private Integer resultCount;
+	private List<String> culumnsNames = new ArrayList<>();
 	private String select;
 	private String message;
-	
+
 	@ManagedProperty(value = "#{connector}")
 	Connector connector;
-	
-	public void evaluate(){
+
+	public void evaluate() {
 		Connection connection = null;
 		try {
 			connection = connector.getConnection();
-			PreparedStatement prepareStatement = connection
-					.prepareStatement(select);
+			PreparedStatement prepareStatement = connection.prepareStatement(select);
 			this.resultSet = prepareStatement.executeQuery();
 			ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
 			resultCount = resultSetMetaData.getColumnCount();
-			for (int i = 1; i < resultCount + 1; i++) {
-				resultList.add(resultSetMetaData.getColumnName(i));
+
+			// fill columns names
+			for (int i = 1; i <= resultCount; i++) {
+				culumnsNames.add(resultSetMetaData.getColumnName(i));
 			}
+
+			// add rows
 			while (resultSet.next()) {
-				for (int i = 1; i < resultCount + 1; i++) {
-					resultList.add(resultSet.getObject(i));
+				Object[] oneRow = new Object[resultCount];
+				for (int i = 1; i <= resultCount; i++) {
+					oneRow[i - 1] = resultSet.getObject(i);
 				}
+				resultList.add(oneRow);
 			}
 			message = "";
 		} catch (MySQLSyntaxErrorException e) {
@@ -54,15 +60,23 @@ public class ResultSet implements Serializable {
 		} catch (SQLException e) {
 			message = e.getMessage();
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	public java.sql.ResultSet getResultSet() {
 		return resultSet;
 	}
 
-	public List<Object> getResultList() throws SQLException {
+	public List<Object[]> getResultList() throws SQLException {
 		return resultList;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public List<String> getCulumnsNames() {
+		return culumnsNames;
 	}
 
 	public Integer getResultCount() throws SQLException {
@@ -82,7 +96,7 @@ public class ResultSet implements Serializable {
 	}
 
 	public void setSelect(String select) {
-		this.select=select;
+		this.select = select;
 	}
 
 	public String getMessage() {

@@ -11,11 +11,19 @@
 			<title>DBEvaluator</title>
 		</ui:insert>
 		<h:outputScript library="javax.faces" name="jsf.js" target="head" />
+		<link rel="stylesheet" type="text/css"
+			media="screen and (max-width:399px)" href="css/small.css" />
+		<link rel="stylesheet" type="text/css"
+			media="screen and (min-width:400px) and
+		(max-width:899px)"
+			href="css/medium.css" />
+		<link rel="stylesheet" type="text/css"
+			media="screen and (min-width:900px)" href="css/big.css" />
 	</h:head>
 
 	<h:body>
 		<ui:insert name="navigation">
-			<h3>Welcome to DBEvaluator</h3>
+			<h3 id="welcome">Welcome to DBEvaluator</h3>
 			<h4>Pure JAVA</h4>
 		</ui:insert>
 		<ui:insert name="body">

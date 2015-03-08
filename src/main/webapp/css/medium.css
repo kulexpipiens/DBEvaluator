@@ -1,0 +1,29 @@
+body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-family: sans-serif;
+	padding-right: 8px;
+	padding-left: 8px;
+}
+
+#welcome {
+	padding-top: 15px;
+	font-family: Courier;
+	font-size: 25px;
+	text-align: center;
+}
+
+.input-area {
+	width: 390px;
+	height: 80px;
+}
+
+.button {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.rows, .header-row {
+	font-size: 12px;
+}

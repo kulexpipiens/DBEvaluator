@@ -7,18 +7,37 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="template/ui.xhtml">
+	<link rel="stylesheet" type="text/css"
+		media="screen and (max-width:399px)" href="css/small.css" />
+	<link rel="stylesheet" type="text/css"
+		media="screen and (min-width:400px) and
+		(max-width:899px)"
+		href="css/medium.css" />
+	<link rel="stylesheet" type="text/css"
+		media="screen and (min-width:900px)" href="css/big.css" />
 	<ui:define name="body">
 		<h:form id="jsfForm">
-			<h:inputText size="100" id="name" value="#{resultSet.select}" />
-			<h:commandButton action="#{resultSet.evaluate}" value="Execute query">
-				<f:ajax execute="name" render=":jsfForm:nameGroup :jsfForm:message" />
+			<h:inputTextarea id="name" styleClass="input-area"
+				value="#{resultSet.select}" />
+			<br />
+			<h:commandButton styleClass="button" action="#{resultSet.evaluate}"
+				value="Execute query">
+				<f:ajax execute="name" render=":jsfForm:table :jsfForm:message" />
 			</h:commandButton>
 			<br />
-			<p:dataGrid id="nameGroup" columns="#{resultSet.resultCount}" value="#{resultSet.resultList}" var="item">
-				<p:column>
-					<h:outputText value="#{item}" />
-				</p:column>
-			</p:dataGrid>
+			<p:dataTable id="table" value="#{resultSet.resultList}" var="items">
+
+				<p:columns value="#{resultSet.culumnsNames}" var="column"
+					columnIndexVar="colIndex">
+					<f:facet name="header">
+						<p:outputPanel styleClass="header-row">
+							#{column}  
+						</p:outputPanel>
+					</f:facet>
+					<h:outputText styleClass="rows" value="#{items[colIndex]}" />
+				</p:columns>
+
+			</p:dataTable>
 			<h:panelGroup id="message">
 				<h:outputText value="#{resultSet.message}" />
 			</h:panelGroup>
